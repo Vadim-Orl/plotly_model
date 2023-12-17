@@ -1,17 +1,13 @@
-import GrafView from '../view/graf-view';
+import GrafView from '../view/graf-view.js';
+import TabsView from '../view/tabs-view.js';
 
-export default class GameScreen {
+export default class GrafScreen {
   constructor(model) {
     this.model = model;
     this.root = document.createElement('div');
-
-    this._timer = null;
-    this._timeAnswer = 0;
-
-    this.updateHeader = this.updateHeader.bind(this);
-    this.startGame = this.startGame.bind(this);
-    this._tick = this._tick.bind(this);
-    this.changeLevel = this.changeLevel.bind(this);
+    // this.updateHeader = this.updateHeader.bind(this);
+    this.resetGraf = this.resetGraf.bind(this);
+    this.resetGraf();
   }
 
   get element() {
@@ -30,44 +26,28 @@ export default class GameScreen {
   //   level.resizeImages();
   // }
 
-  startGame() {
-    this.garf = new GrafView(this.model.tracePlan);
+  resetGraf() {
+    console.log('reset');
+    this.model.changePlan();
+    this.graf = new GrafView(this.model);
+    this.grafTabs = new TabsView();
+
+    // const tabs = new PlanTabsView();
+    this.grafTabs.onAnswer = this.onAnswer.bind(this);
+    console.log(this.grafTabs)
 
     this.root.appendChild(this.graf.element);
-
-    this.content.onAnswer = this.onAnswer.bind(this);
-    this.content.resizeImages();
-    this._tick();
+    this.root.appendChild(this.grafTabs.element);
   }
 
-  stopGame() {
-    clearInterval(this._timer);
+  resetGraf2() {
+
   }
 
 
-  onAnswer(...answer) {
-    this.stopGame();
-
-    const questionBd = this.model.data[this.model.getCurrentLevel()];
-    let isCorrectAnsw = false;
-    let findElement;
-
-    switch (questionBd.type) {
-      case 'singleQuestion':
-      case 'doubleQuestion':
-        isCorrectAnsw = answer.every((el, index) => (questionBd.options[index].answer === el));
-        break;
-
-      case 'tripleQuestion':
-        findElement = questionBd.options.find((el) => el.alt === answer[0].alt);
-        isCorrectAnsw = (findElement.answer === 'paint');
-
-        break;
-      default: throw new Error('Could not process user response. Check database');
-    }
-
-    this.model.answer(isCorrectAnsw, this._timeAnswer);
-
+  onAnswer(pointValue, pointDate) {
+    console.log('hello');
+    
     if (this.model.isGameOver()) {
       this.endGame(true);
     } else if (this.model.hasNextLevel()) {

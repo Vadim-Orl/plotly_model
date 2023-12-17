@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view.js';
+import AbstractView from '../view/abstract-view.js';
 
 export default class GrafView extends AbstractView {
   constructor(data) {
@@ -12,8 +12,8 @@ export default class GrafView extends AbstractView {
 
   bind() {
     const graf = this.element.querySelector('#graf');
-    console.log(this.model.getTracePlan());
-    const data = [this.model.getTracePlan()];
+    console.log(this.model.getDataTrace())
+    const data = this.model.getDataTrace();
 
     const layout = {
       title: 'Скважина 1',
