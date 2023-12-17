@@ -5,9 +5,10 @@ export default class GrafScreen {
   constructor(model) {
     this.model = model;
     this.root = document.createElement('div');
-    // this.updateHeader = this.updateHeader.bind(this);
-    this.resetGraf = this.resetGraf.bind(this);
-    this.resetGraf();
+    this.startGraf = this.startGraf.bind(this);
+    this.restartGraf = this.restartGraf.bind(this);
+
+    this.startGraf();
   }
 
   get element() {
@@ -26,50 +27,27 @@ export default class GrafScreen {
   //   level.resizeImages();
   // }
 
-  resetGraf() {
+  startGraf() {
     console.log('reset');
     this.model.changePlan();
     this.graf = new GrafView(this.model);
     this.grafTabs = new TabsView();
 
-    // const tabs = new PlanTabsView();
     this.grafTabs.onAnswer = this.onAnswer.bind(this);
-    console.log(this.grafTabs)
 
     this.root.appendChild(this.graf.element);
     this.root.appendChild(this.grafTabs.element);
   }
 
-  resetGraf2() {
-
+  restartGraf() {
+    const graf = new GrafView(this.model);
+    this.root.replaceChild(graf.element, this.graf.element);
+    this.graf = graf;
   }
 
 
-  onAnswer(pointValue, pointDate) {
-    console.log('hello');
-    
-    if (this.model.isGameOver()) {
-      this.endGame(true);
-    } else if (this.model.hasNextLevel()) {
-      this.model.nextLevel();
-      this.changeLevel();
-    } else {
-      this.endGame(false);
-    }
-  }
-
-  updateHeader() {
-    const header = new HeaderView(this.model.state, showPlayerHeader);
-    this.root.replaceChild(header.element, this.header.element);
-    header.onClick = () => {
-      this.stopGame();
-      Router.showWellcom();
-    };
-    this.header = header;
-  }
-
-  changeContentView(view) {
-    this.root.replaceChild(view.element, this.content.element);
-    this.content = view;
+  onAnswer(pointValue, pointTime) {
+    this.model.addPoint(pointValue, pointTime);
+    this.restartGraf();
   }
 }

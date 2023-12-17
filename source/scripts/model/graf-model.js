@@ -1,15 +1,14 @@
-import {INITIAL_GRAF, changePlan} from '../utils/bisnes-function.js';
+import {INITIAL_GRAF, changePlan, changePoint} from '../utils/bisnes-function.js';
 
 export default class GrafModel {
   constructor(planValue, planDate) {
     this.planValue = planValue;
     this.planDate = planDate;
-    this.restart();
+    this.start();
     // this.changePlan();
   }
 
-  restart() {
-    console.log(this.planDate)
+  start() {
     this._state = INITIAL_GRAF;
   }
 
@@ -31,5 +30,10 @@ export default class GrafModel {
 
   changePlan() {
     this._state = changePlan(this._state, this.planValue, this.planDate);
+  }
+
+  addPoint(value,time) {
+    console.log('addpoint' + time + value);
+    this._state = changePoint(this._state, time, value, this.planDate);
   }
 }

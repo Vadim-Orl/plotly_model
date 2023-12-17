@@ -1,9 +1,10 @@
 import AbstractView from '../view/abstract-view.js';
 
 export default class GrafView extends AbstractView {
-  constructor(data) {
+  constructor(state) {
     super('div', { classes: ['graf'] });
-    this.model = data;
+    // this.model = data;
+    this.state = state;
   }
 
   get template() {
@@ -12,8 +13,9 @@ export default class GrafView extends AbstractView {
 
   bind() {
     const graf = this.element.querySelector('#graf');
-    console.log(this.model.getDataTrace())
-    const data = this.model.getDataTrace();
+    console.log('state - ---- ')
+    console.log(this.state)
+    const data = this.state.getDataTrace();
 
     const layout = {
       title: 'Скважина 1',

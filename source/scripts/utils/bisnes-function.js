@@ -18,6 +18,12 @@ const INITIAL_GRAF = Object.freeze({
               'Добыто (сутки): <b>%{y}<b> тыс.м',
 
   },
+
+  traceObtained: {
+    x: [],
+    y: [],
+    type: 'scatter'
+  },
 });
 
 const changePlan = (state, planMax, planDate) => {
@@ -27,15 +33,22 @@ const changePlan = (state, planMax, planDate) => {
 
   const y = [Number(planMax), Number(planMax)];
   const x = [planDate, nexDayDate];
-  const newGraf = { ...state};
-  newGraf.tracePlan.x = x;
-  newGraf.tracePlan.y = y;
+  const newState = { ...state};
+  newState.tracePlan.x = x;
+  newState.tracePlan.y = y;
 
-  return newGraf;
+  return newState;
 };
 
-const changePoint = (state, time, value) => {
+const changePoint = (state, time, value, date) => {
+  const newState = {...state};
+  newState.tracePoint.x.push(`${date} ${time}`);
+  newState.tracePoint.y.push(Number(value));
+  return newState;
+};
 
+const changeObtained = (state) => {
+  const newState;
 }
 
-export {INITIAL_GRAF, changePlan};
+export {INITIAL_GRAF, changePlan, changePoint};
