@@ -1,5 +1,5 @@
-import PlanLine from "./plan";
-import ProductionTrace from "./production-trac";
+import PlanLine from './еьз/plan';
+import ProductionTrace from './еьз/production-trac';
 
 const planLine = new PlanLine('2018-01-01', 100);
 
@@ -45,7 +45,7 @@ const traceB = {
   // texttemplate: '%{text}<br>hhhhh',
   // textposition: 'bottom center',
   hovertemplate:
-            `%{x} <br>` +
+            '%{x} <br>' +
             'Добыто (сутки): <b>%{y}<b> тыс.м',
   getDate() {
     return transformDate(this.x[0]);

@@ -1,4 +1,4 @@
-import GrafView from './graf-view';
+import GrafView from '../view/graf-view';
 
 export default class GameScreen {
   constructor(model) {

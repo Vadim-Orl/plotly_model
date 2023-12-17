@@ -1,9 +1,10 @@
-import INITIAL_GRAF from '../utils/bisnes-function.js';
+import {INITIAL_GRAF, changePlan} from '../utils/bisnes-function.js';
 
 export default class GrafModel {
   constructor(planValue) {
     this.planValue = planValue;
     this.restart();
+    this.changePlan();
     console.log('create');
   }
 
@@ -15,7 +16,11 @@ export default class GrafModel {
     return Object.freeze(this._state);
   }
 
-  getracePlan() {
-    return this._state.INITIAL_GRAF.tracePlan;
+  getTracePlan() {
+    return this._state.tracePlan;
+  }
+
+  changePlan() {
+    this._state.tracePlan = changePlan(this._state.tracePlan, this.planValue);
   }
 }

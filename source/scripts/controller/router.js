@@ -1,5 +1,5 @@
 import utils from '../utils/utils.js';
-import GrafView from '../model/graf-view.js';
+import GrafView from '../view/graf-view.js';
 import PlanTabsView from '../view/plan-tabs-veiw.js';
 import TabsView from '../view/tabs-view.js';
 import GrafModel from '../model/graf-model.js';
