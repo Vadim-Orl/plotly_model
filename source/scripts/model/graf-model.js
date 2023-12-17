@@ -21,6 +21,6 @@ export default class GrafModel {
   }
 
   changePlan() {
-    this._state.tracePlan = changePlan(this._state.tracePlan, this.planValue);
+    return changePlan(this._state.tracePlan, this.planValue);
   }
 }
