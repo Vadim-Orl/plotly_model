@@ -1,4 +1,4 @@
-import {INITIAL_GRAF, changePlan, changePoint} from '../utils/bisnes-function.js';
+import {INITIAL_GRAF, changePlan, changePoint, changeObtained, changeForecast} from '../utils/bisnes-function.js';
 
 export default class GrafModel {
   constructor(planValue, planDate) {
@@ -17,7 +17,12 @@ export default class GrafModel {
   }
 
   getDataTrace() {
-    return [this.getTracePlan(), this.getTracePoint()];
+    return [
+      this.getTracePlan(),
+      this.getTracePoint(),
+      this.getTraceObtained(),
+      this.getTraceForecast()
+    ];
   }
 
   getTracePlan() {
@@ -28,12 +33,27 @@ export default class GrafModel {
     return this._state.tracePoint;
   }
 
+  getTraceObtained() {
+    return this._state.traceObtained;
+  }
+
+  getTraceForecast() {
+    return this._state.traceForecast;
+  }
+
   changePlan() {
     this._state = changePlan(this._state, this.planValue, this.planDate);
   }
 
   addPoint(value,time) {
-    console.log('addpoint' + time + value);
     this._state = changePoint(this._state, time, value, this.planDate);
+  }
+
+  changeObtained() {
+    changeObtained(this._state, this.planValue);
+  }
+
+  changeForecast() {
+    changeForecast(this._state, this.planDate);
   }
 }

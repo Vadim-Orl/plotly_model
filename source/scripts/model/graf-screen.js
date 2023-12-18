@@ -48,6 +48,8 @@ export default class GrafScreen {
 
   onAnswer(pointValue, pointTime) {
     this.model.addPoint(pointValue, pointTime);
+    this.model.changeObtained();
+    this.model.changeForecast();
     this.restartGraf();
   }
 }

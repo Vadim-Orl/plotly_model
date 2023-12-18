@@ -1,9 +1,9 @@
+
 import AbstractView from '../view/abstract-view.js';
 
 export default class GrafView extends AbstractView {
   constructor(state) {
     super('div', { classes: ['graf'] });
-    // this.model = data;
     this.state = state;
   }
 
@@ -13,14 +13,16 @@ export default class GrafView extends AbstractView {
 
   bind() {
     const graf = this.element.querySelector('#graf');
-    console.log('state - ---- ')
-    console.log(this.state)
+    console.log('state - ---- ');
+    console.log(this.state);
     const data = this.state.getDataTrace();
 
     const layout = {
       title: 'Скважина 1',
       font: {size: 18},
       xaxis: {
+        // tickwidth: 0.1,
+        // dtick: 20,
         title: 'Distance travelled along x-axis',
         titlefont: {
           color: 'black',
@@ -33,13 +35,12 @@ export default class GrafView extends AbstractView {
           color: 'black',
           size: 12
         },
-        dtick: 10,
+        dtick: 20,
       },
       bargap :200,
     };
 
     const config = {responsive: true};
-
     Plotly.newPlot(graf, data, layout, config);
   }
 }

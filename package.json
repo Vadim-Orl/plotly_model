@@ -60,6 +60,8 @@
   },
   "dependencies": {
     "plotly.js": "^2.27.1",
-    "plotly.js-dist": "^2.27.1"
+    "plotly.js-dist": "^2.27.1",
+    "plotly.js-dist-min": "^2.27.1",
+    "plotly.js-locales": "^2.27.1"
   }
 }
