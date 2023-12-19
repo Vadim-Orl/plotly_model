@@ -1,4 +1,4 @@
-import NUMBER_OF_MINUTES from '../const';
+import {NUMBER_OF_MINUTES, WIDTH_BAR, GRAF_STYLE} from '../const';
 
 const INITIAL_GRAF = Object.freeze({
   options: {
@@ -9,34 +9,37 @@ const INITIAL_GRAF = Object.freeze({
   tracePlan: {
     type: 'scatter',
     mode: 'lines',
-    name: 'Нлан на день',
+    name: 'План Добычи',
+    fill: 'tozeroy',
+    fillcolor: GRAF_STYLE.color.tracePlanFill,
     x: [],
     y: [],
-    line: {color: '#17BECF'}
+    line: {color: GRAF_STYLE.color.tracePlan},
   },
 
   tracePoint: {
-    tmp(){
-      return console.log(this.x);
-
-    },
     x: [],
     y: [],
     type: 'bar',
-    name: 'Поинт добычи',
-    width: 5000000,
+    name: 'Добыто (час)',
+    width: WIDTH_BAR,
     // texttemplate: 'Day: %{x|%A. %b %d. %H-%M}',
     hovertemplate:
-              `%{x|%A. %b %d. %H-%M} <br>Добыто (сутки): <b>%{y}</b> тыс.м`,
-
+              '%{x|%A. %b %d. %H-%M} <br>' +
+              'Добыто (сутки): <b>%{y}</b> тыс.м',
+    marker: {color: GRAF_STYLE.color.tracePoint}
   },
 
   traceObtained: {
     x: [],
     y: [],
+    text:[],
     type: 'scatter',
-    name: 'График добычи',
-
+    name: 'Добыто (сутки)',
+    hovertemplate:
+    '%{x|%A. %b %d. %H-%M} <br>' +
+    'Добыто: <b>%{y}</b> тыс.м',
+    line: {color: GRAF_STYLE.color.traceObtained}
   },
 
   traceForecast: {
@@ -47,10 +50,10 @@ const INITIAL_GRAF = Object.freeze({
     line: {
       width: 3,
       dash: 'dot',
-      color: 'rgb(157, 255, 98)'
+      color: GRAF_STYLE.color.traceForecast,
     },
     hovertemplate:
-    '%{x} <br>' +
+    '%{x|%A. %b %d. %H-%M} <br>' +
     'Прогноз добычи: <b>%{y}</b> тыс.м',
   },
 });
@@ -78,7 +81,7 @@ const changePoint = (state, time, value, date) => {
   return newState;
 };
 
-const changeObtained = (state, planValue) => {
+const changeObtained = (state) => {
   const newState = {...state};
   const mapPoint = [];
 
@@ -104,14 +107,13 @@ const changeObtained = (state, planValue) => {
     newState.traceObtained.y[index] = acc;
   });
 
-  if(newState.options.productionNow >= Number(planValue)) {
-    newState.tracePlan.line.color = '#14b814';
-  }
+  // newState.tracePoint.text.fill('1');
+
   newState.options.productionNow = acc;
   return newState;
 };
 
-const changeForecast = (state, date) => {
+const changeForecast = (state, date, planValue) => {
   const newState = {...state};
   const arrObtained_x = newState.traceObtained.x;
   const arrObtained_y = newState.traceObtained.y;
@@ -128,6 +130,12 @@ const changeForecast = (state, date) => {
   newState.traceForecast.y[1] = (newState.options.productionNow / minutesNow) * NUMBER_OF_MINUTES;
   console.log('forecast');
   console.log(newState.traceForecast);
+
+
+  if(newState.traceForecast.y[1] && (newState.traceForecast.y[1] >= Number(planValue))) {
+    newState.traceForecast.line.color = GRAF_STYLE.color.traceForecastDone;
+  }
+
   return newState;
 };
 

@@ -19,9 +19,10 @@ export default class GrafModel {
   getDataTrace() {
     return [
       this.getTracePlan(),
-      this.getTracePoint(),
+      this.getTraceForecast(),
       this.getTraceObtained(),
-      this.getTraceForecast()
+      this.getTracePoint(),
+
     ];
   }
 
@@ -50,10 +51,10 @@ export default class GrafModel {
   }
 
   changeObtained() {
-    changeObtained(this._state, this.planValue);
+    changeObtained(this._state);
   }
 
   changeForecast() {
-    changeForecast(this._state, this.planDate);
+    changeForecast(this._state, this.planDate, this.planValue);
   }
 }
