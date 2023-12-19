@@ -2,7 +2,7 @@ import {INITIAL_GRAF, changePlan, changePoint, changeObtained, changeForecast} f
 
 export default class GrafModel {
   constructor(planValue, planDate) {
-    this.planValue = planValue;
+    this.planValue = Number(planValue);
     this.planDate = planDate;
     this.start();
     // this.changePlan();

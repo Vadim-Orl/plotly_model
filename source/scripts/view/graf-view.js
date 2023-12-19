@@ -20,7 +20,7 @@ export default class GrafView extends AbstractView {
 
     const layout = {
       // showlegend: false,
-      width: '100%',
+      width: document.documentElement.clientWidth - 20,
       legend: {'orientation': 'h',
         x: 0,
         y: 100,
@@ -33,7 +33,6 @@ export default class GrafView extends AbstractView {
       title: 'Скважина 1',
       font: {size: 18},
       xaxis: {
-        // title: 'Distance travelled along x-axis',
         titlefont: {
           color: 'black',
           size: 12
@@ -49,10 +48,8 @@ export default class GrafView extends AbstractView {
       },
       bargap :200,
     };
-    // locale.setlocale(locale.LC_TIME, 'de_DE')
-    console.log('1111111111111111111111111111');
+
     const config = {responsive: true};
-    console.log(config);
 
     Plotly.newPlot(graf, data, layout, config);
   }

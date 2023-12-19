@@ -36,17 +36,26 @@ const INITIAL_GRAF = Object.freeze({
     text:[],
     type: 'scatter',
     name: 'Добыто (сутки)',
+    mode: 'lines+markers+text',
+    // texttemplate: '%{text}',
+    textposition: 'top center',
     hovertemplate:
     '%{x|%A. %b %d. %H-%M} <br>' +
     'Добыто: <b>%{y}</b> тыс.м',
-    line: {color: GRAF_STYLE.color.traceObtained}
+    line: {
+      color: GRAF_STYLE.color.traceObtained
+    }
   },
 
   traceForecast: {
     x: [],
     y: [],
+    text: [],
     type: 'line',
     name: 'Прогноз добычи',
+    mode: 'lines+markers+text',
+    textposition: 'center left',
+    // textfont:{'family': 'Times', 'size': '22'},
     line: {
       width: 3,
       dash: 'dot',
@@ -61,7 +70,7 @@ const INITIAL_GRAF = Object.freeze({
 const changePlan = (state, planMax, planDate) => {
   const nexDayDate = getNextDate(planDate);
 
-  const y = [Number(planMax), Number(planMax)];
+  const y = [planMax, planMax];
   const x = [planDate, nexDayDate];
   const newState = { ...state};
   newState.tracePlan.x = x;
@@ -77,19 +86,20 @@ const changePoint = (state, time, value, date) => {
 
   const newState = {...state};
   newState.tracePoint.x.push(`${date} ${time}`);
-  newState.tracePoint.y.push(Number(value));
+  newState.tracePoint.y.push(value);
   return newState;
 };
 
 const changeObtained = (state) => {
   const newState = {...state};
-  const mapPoint = [];
+  const mapBar = [];
+  const { tracePoint, traceObtained} = newState;
 
-  newState.tracePoint.x.forEach((el, index) => {
-    mapPoint.push({name: el, value: state.tracePoint.y[index]});
+  tracePoint.x.forEach((el, index) => {
+    mapBar.push({name: el, value: tracePoint.y[index]});
   });
 
-  mapPoint.sort((a, b) => {
+  mapBar.sort((a, b) => {
     if (a.name > b.name) {
       return 1;
     }
@@ -101,13 +111,15 @@ const changeObtained = (state) => {
 
   let acc = 0;
 
-  mapPoint.forEach((el, index) => {
+  mapBar.forEach((el, index) => {
     acc += el.value;
-    newState.traceObtained.x[index] = el.name;
-    newState.traceObtained.y[index] = acc;
+    traceObtained.x[index] = el.name;
+    traceObtained.y[index] = acc;
   });
 
-  // newState.tracePoint.text.fill('1');
+  traceObtained.text.length = mapBar.length - 1;
+  traceObtained.text.fill('');
+  traceObtained.text.push(traceObtained.y[traceObtained.y.length - 1]);
 
   newState.options.productionNow = acc;
   return newState;
@@ -115,26 +127,23 @@ const changeObtained = (state) => {
 
 const changeForecast = (state, date, planValue) => {
   const newState = {...state};
-  const arrObtained_x = newState.traceObtained.x;
-  const arrObtained_y = newState.traceObtained.y;
-  newState.traceForecast.x[0] = arrObtained_x[arrObtained_x.length - 1];
-  newState.traceForecast.y[0] = arrObtained_y[arrObtained_x.length - 1];
+  const {traceObtained, traceForecast} = newState;
+
+  traceForecast.x[0] = traceObtained.x[traceObtained.x.length - 1];
+  traceForecast.y[0] = traceObtained.y[traceObtained.y.length - 1];
 
   const dateTmp = new Date(newState.traceForecast.x[0]);
   const minutesNow = (dateTmp.getHours() * 60) + dateTmp.getMinutes();
-  console.log(minutesNow);
-  // debugger
   const nexDayDate = getNextDate(date);
 
-  newState.traceForecast.x[1] = nexDayDate;
-  newState.traceForecast.y[1] = (newState.options.productionNow / minutesNow) * NUMBER_OF_MINUTES;
-  console.log('forecast');
-  console.log(newState.traceForecast);
+  traceForecast.y[1] = (newState.options.productionNow / minutesNow) * NUMBER_OF_MINUTES;
+  traceForecast.x[1] = nexDayDate;
 
-
-  if(newState.traceForecast.y[1] && (newState.traceForecast.y[1] >= Number(planValue))) {
-    newState.traceForecast.line.color = GRAF_STYLE.color.traceForecastDone;
+  if(traceForecast.y[1] && (traceForecast.y[1] >= planValue)) {
+    traceForecast.line.color = GRAF_STYLE.color.traceForecastDone;
   }
+
+  traceForecast.text = ['', traceForecast.y[1]];
 
   return newState;
 };

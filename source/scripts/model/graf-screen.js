@@ -15,18 +15,6 @@ export default class GrafScreen {
     return this.root;
   }
 
-  // changeLevel() {
-  //   this._timeAnswer = 0;
-  //   this.updateHeader();
-  //   this.updateStatistic();
-  //   const levelData = this.model.data[this.model.getCurrentLevel()];
-  //   const level = new GameView(levelData, this.model.getCurrentLevel());
-
-  //   this.changeContentView(level);
-  //   level.onAnswer = this.onAnswer.bind(this);
-  //   level.resizeImages();
-  // }
-
   startGraf() {
     console.log('reset');
     this.model.changePlan();
@@ -47,7 +35,7 @@ export default class GrafScreen {
 
 
   onAnswer(pointValue, pointTime) {
-    this.model.addPoint(pointValue, pointTime);
+    this.model.addPoint(Number(pointValue), pointTime);
     this.model.changeObtained();
     this.model.changeForecast();
     this.restartGraf();
