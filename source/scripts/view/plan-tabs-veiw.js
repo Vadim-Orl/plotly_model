@@ -2,35 +2,83 @@ import AbstractView from './abstract-view.js';
 import Router from '../controller/router.js';
 
 export default class PlanTabsView extends AbstractView {
-  constructor() {
+  constructor(model) {
     super('div', { classes: ['plan-tabs'] });
+    this.model = model;
+    this.planValue = model.planValue;
   }
 
   get template() {
     return `
-    <form>
+    <div class="modal-form modal-form--opened">
+    <button class="form-toggle" disabled="disabled">
+      <span class="visually-hidden">Закрыть</span>
+    </button>
+    <form action=""  class="form form__plan" >
+
+    <fieldset>
+    <legend>Введите план на день</legend>
      <label>
-         <input type="number" step="10" min="1" max="300" value="100" class="plan-value" name="plan-value" />
+     <p>
+        План (тыс.м):
+         <input type="number" step="10" min="100" max="200" value="100" class="plan-value" name="plan-value" />
       </label>
-      <label>
-         <input type="date" value="2018-01-01" min="2018-01-01" max="2018-12-31" class="plan-date" name="plan-data" />
-      </label>
-     <input type="button" class="button button__plan" value="Добавить">
-   </form>`;
+      </p>
+      <p>
+     <input type="submit" class="button button__plan" value="Добавить">
+     <p/>
+     </fieldset>
+   </form>
+    </div>
+    <button class="button button__plan--change hidden">Изменить плаан</button>
+    <button class="button button__plan--reset hidden">Сбросить график</button>
+    `;
   }
 
-  onAnswer(planValue, planDate) {
-    Router.start(planValue, planDate);
+  onAnswer(planValue) {
+    console.log(this.model);
+    Router.start(planValue, this.model);
   }
 
   bind() {
     const planValue = this._element.querySelector('.plan-value');
-    const planDate = this._element.querySelector('.plan-date');
+    const formPlan = this._element.querySelector('.form__plan');
+    const modalForm = this._element.querySelector('.modal-form');
+    const btnResetPlan = this._element.querySelector('.button__plan--reset');
+    const btnChangePlan = this._element.querySelector('.button__plan--change');
+    const btnClose = this._element.querySelector('.form-toggle');
 
-    this._element.querySelector('.button__plan').addEventListener('click', (evt) => {
+
+    formPlan.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      console.log(planDate.value)
-      this.onAnswer(planValue.value, planDate.value);
+      this.onAnswer(planValue.value);
     });
+
+    if (this.planValue) {
+      modalForm.classList.add('hidden');
+      modalForm.classList.remove('form__plan--opened');
+      btnResetPlan.classList.remove('hidden');
+      btnChangePlan.classList.remove('hidden');
+
+    }
+
+    btnChangePlan.addEventListener('click', (evt) => {
+      btnClose.disabled = false;
+      evt.preventDefault();
+      modalForm.classList.remove('hidden');
+      modalForm.classList.add('form__plan--opened');
+    });
+
+    btnResetPlan.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this.onAnswer();
+    });
+
+    btnClose.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      modalForm.classList.add('hidden');
+      modalForm.classList.remove('form__plan--opened');
+    });
+
   }
 }

@@ -1,6 +1,5 @@
 
 import AbstractView from '../view/abstract-view.js';
-import * as localeDictionary from 'plotly.js/lib/locales/pt-br.js';
 
 export default class GrafView extends AbstractView {
   constructor(state) {
@@ -13,6 +12,8 @@ export default class GrafView extends AbstractView {
   }
 
   bind() {
+
+
     const graf = this.element.querySelector('#graf');
     console.log('state - ---- ');
     console.log(this.state);

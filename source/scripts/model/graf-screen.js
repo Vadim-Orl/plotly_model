@@ -1,4 +1,5 @@
 import GrafView from '../view/graf-view.js';
+import PlanTabsView from '../view/plan-tabs-veiw.js';
 import TabsView from '../view/tabs-view.js';
 
 export default class GrafScreen {
@@ -16,18 +17,35 @@ export default class GrafScreen {
   }
 
   startGraf() {
-    console.log('reset');
-    this.model.changePlan();
+    console.log('start');
     this.graf = new GrafView(this.model);
+
     this.grafTabs = new TabsView();
+    this.grafPlan = new PlanTabsView(this.model);
 
     this.grafTabs.onAnswer = this.onAnswer.bind(this);
 
     this.root.appendChild(this.graf.element);
     this.root.appendChild(this.grafTabs.element);
+    this.root.appendChild(this.grafPlan.element);
+  }
+
+  changeGraf() {
+    console.log('change graf');
+    this.grafTabs = new TabsView();
+    this.grafPlan = new PlanTabsView(this.model);
+
+    this.grafTabs.onAnswer = this.onAnswer.bind(this);
+
+    this.root.appendChild(this.graf.element);
+    this.root.appendChild(this.grafTabs.element);
+    this.root.appendChild(this.grafPlan.element);
   }
 
   restartGraf() {
+    console.log('restart');
+    // const grafModel = new GrafModel(this.model);
+    // this.model = grafModel;
     const graf = new GrafView(this.model);
     this.root.replaceChild(graf.element, this.graf.element);
     this.graf = graf;
@@ -36,6 +54,8 @@ export default class GrafScreen {
 
   onAnswer(pointValue, pointTime) {
     this.model.addPoint(Number(pointValue), pointTime);
+    // this.model.planValue = Number(planValue);
+    this.model.changePlan();
     this.model.changeObtained();
     this.model.changeForecast();
     this.restartGraf();

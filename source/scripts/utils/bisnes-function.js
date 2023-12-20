@@ -84,14 +84,15 @@ const changePoint = (state, time, value, date) => {
     time.unshift('0');
   }
 
-  const newState = {...state};
+  const newState = JSON.parse(JSON.stringify(state));
+
   newState.tracePoint.x.push(`${date} ${time}`);
   newState.tracePoint.y.push(value);
   return newState;
 };
 
 const changeObtained = (state) => {
-  const newState = {...state};
+  const newState = JSON.parse(JSON.stringify(state));
   const mapBar = [];
   const { tracePoint, traceObtained} = newState;
 
@@ -122,11 +123,15 @@ const changeObtained = (state) => {
   traceObtained.text.push(traceObtained.y[traceObtained.y.length - 1]);
 
   newState.options.productionNow = acc;
+
+  console.log(newState)
+
   return newState;
 };
 
 const changeForecast = (state, date, planValue) => {
-  const newState = {...state};
+  const newState = JSON.parse(JSON.stringify(state));
+
   const {traceObtained, traceForecast} = newState;
 
   traceForecast.x[0] = traceObtained.x[traceObtained.x.length - 1];
@@ -141,6 +146,8 @@ const changeForecast = (state, date, planValue) => {
 
   if(traceForecast.y[1] && (traceForecast.y[1] >= planValue)) {
     traceForecast.line.color = GRAF_STYLE.color.traceForecastDone;
+  }else {
+    traceForecast.line.color = GRAF_STYLE.color.traceForecast;
   }
 
   traceForecast.text = ['', traceForecast.y[1]];

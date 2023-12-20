@@ -1,0 +1,48 @@
+
+body {
+  margin: 0;
+  position: relative;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+*,::before,::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+.visually-hidden:not(:focus):not(:active),
+  input[type="checkbox"].visually-hidden,
+  input[type="radio"].visually-hidden {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+
+    white-space: nowrap;
+
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+// .button {
+//   height: 55px;
+//   font-style: normal;
+//   font-weight: 700;
+//   font-size: 18px;
+//   line-height: 18px;
+//   cursor: pointer;
+
+//   text-align: center;
+//   color: #FFFFFF;
+// }
