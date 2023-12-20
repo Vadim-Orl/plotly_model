@@ -7,13 +7,13 @@ const INITIAL_GRAF = Object.freeze({
   },
 
   tracePlan: {
+    x: [],
+    y: [],
     type: 'scatter',
     mode: 'lines',
     name: 'План Добычи',
     fill: 'tozeroy',
     fillcolor: GRAF_STYLE.color.tracePlanFill,
-    x: [],
-    y: [],
     line: {color: GRAF_STYLE.color.tracePlan},
   },
 
@@ -68,11 +68,15 @@ const INITIAL_GRAF = Object.freeze({
 });
 
 const changePlan = (state, planMax, planDate) => {
+  console.log(state);
+  const newState = JSON.parse(JSON.stringify(state));
+
   const nexDayDate = getNextDate(planDate);
 
   const y = [planMax, planMax];
   const x = [planDate, nexDayDate];
-  const newState = { ...state};
+  console.log(y)
+
   newState.tracePlan.x = x;
   newState.tracePlan.y = y;
 
@@ -95,6 +99,10 @@ const changeObtained = (state) => {
   const newState = JSON.parse(JSON.stringify(state));
   const mapBar = [];
   const { tracePoint, traceObtained} = newState;
+
+  if(tracePoint.x.length === 0) {
+    return newState;
+  }
 
   tracePoint.x.forEach((el, index) => {
     mapBar.push({name: el, value: tracePoint.y[index]});
@@ -124,7 +132,7 @@ const changeObtained = (state) => {
 
   newState.options.productionNow = acc;
 
-  console.log(newState)
+  console.log(newState);
 
   return newState;
 };

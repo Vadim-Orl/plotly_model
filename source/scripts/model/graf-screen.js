@@ -24,6 +24,7 @@ export default class GrafScreen {
     this.grafPlan = new PlanTabsView(this.model);
 
     this.grafTabs.onAnswer = this.onAnswer.bind(this);
+    this.grafPlan.changePlan = this.changePlan.bind(this);
 
     this.root.appendChild(this.graf.element);
     this.root.appendChild(this.grafTabs.element);
@@ -44,20 +45,32 @@ export default class GrafScreen {
 
   restartGraf() {
     console.log('restart');
-    // const grafModel = new GrafModel(this.model);
-    // this.model = grafModel;
+    console.log(this.model);
     const graf = new GrafView(this.model);
     this.root.replaceChild(graf.element, this.graf.element);
     this.graf = graf;
+  }
+
+  changePlan(value) {
+    // this.model.planValue = value;
+    this.model.changePlan(value);
+
+    this.updateModel();
+    this.restartGraf();
   }
 
 
   onAnswer(pointValue, pointTime) {
     this.model.addPoint(Number(pointValue), pointTime);
     // this.model.planValue = Number(planValue);
-    this.model.changePlan();
-    this.model.changeObtained();
-    this.model.changeForecast();
+    this.updateModel();
     this.restartGraf();
   }
+
+  updateModel() {
+    // this.model.changePlan();
+    this.model.changeObtained();
+    this.model.changeForecast();
+  }
+
 }

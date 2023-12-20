@@ -30,14 +30,16 @@ export default class PlanTabsView extends AbstractView {
      </fieldset>
    </form>
     </div>
-    <button class="button button__plan--change hidden">Изменить плаан</button>
-    <button class="button button__plan--reset hidden">Сбросить график</button>
+    <div class="btns-plan-wrapper">
+      <button class="button button__plan--change hidden">Изменить плаан</button>
+      <button class="button button__plan--reset hidden">Сбросить график</button>
+    </div>
     `;
   }
 
   onAnswer(planValue) {
-    console.log(this.model);
-    Router.start(planValue, this.model);
+    // console.log(this.model);
+    this.changePlan(planValue);
   }
 
   bind() {
@@ -52,15 +54,16 @@ export default class PlanTabsView extends AbstractView {
     formPlan.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this.onAnswer(planValue.value);
-    });
-
-    if (this.planValue) {
       modalForm.classList.add('hidden');
       modalForm.classList.remove('form__plan--opened');
       btnResetPlan.classList.remove('hidden');
       btnChangePlan.classList.remove('hidden');
+    });
 
-    }
+    // if (this.planValue) {
+
+
+    // }
 
     btnChangePlan.addEventListener('click', (evt) => {
       btnClose.disabled = false;
@@ -71,7 +74,7 @@ export default class PlanTabsView extends AbstractView {
 
     btnResetPlan.addEventListener('click', (evt) => {
       evt.preventDefault();
-      this.onAnswer();
+      Router.start(planValue, this.model);
     });
 
     btnClose.addEventListener('click', (evt) => {

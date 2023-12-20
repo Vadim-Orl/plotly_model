@@ -43,15 +43,17 @@ export default class GrafModel {
     return this._state.traceForecast;
   }
 
-  changePlan(value) {
+  changePlan(value = 0) {
+    // debugger
+    console.log(value);
     this.planValue = value;
     this._state = changePlan(this._state, this.planValue, this.planDate);
 
   }
 
-  changePlan() {
-    this._state = changePlan(this._state, this.planValue, this.planDate);
-  }
+  // changePlan() {
+  //   this._state = changePlan(this._state, this.planValue, this.planDate);
+  // }
 
   addPoint(value, time) {
     this._state = changePoint(this._state, time, value, this.planDate);
