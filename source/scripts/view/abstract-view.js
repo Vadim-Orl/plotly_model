@@ -18,8 +18,7 @@ class AbstractView {
   }
 
   get template() {
-    return '';
-    // throw new Error('Template is required');
+    throw new Error('Template is required');
   }
 
   get element() {

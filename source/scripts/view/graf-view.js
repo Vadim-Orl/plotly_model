@@ -13,15 +13,12 @@ export default class GrafView extends AbstractView {
 
   bind() {
 
-
     const graf = this.element.querySelector('#graf');
-    console.log('state - ---- ');
-    console.log(this.state);
     const data = this.state.getDataTrace();
 
     const layout = {
-      // showlegend: false,
       width: document.documentElement.clientWidth - 20,
+      selections:{opacity: 0.2},
       legend: {'orientation': 'h',
         x: 0,
         y: 100,

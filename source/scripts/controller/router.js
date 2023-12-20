@@ -12,16 +12,9 @@ export default class Router {
   }
 
   static start(planValue) {
-    console.log('router')
     const grafModel = new GrafModel(planValue);
-    console.log(grafModel)
     const grafScreen = new GrafScreen(grafModel);
-    // const grafTabsScreen = new TabsView();
     utils.showScreen(utils.newCentralContainer(grafScreen));
   }
-
-
-
-
 
 }

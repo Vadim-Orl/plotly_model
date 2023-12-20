@@ -3,7 +3,6 @@ import {NUMBER_OF_MINUTES, WIDTH_BAR, GRAF_STYLE} from '../const';
 const INITIAL_GRAF = Object.freeze({
   options: {
     productionNow: 0,
-
   },
 
   tracePlan: {
@@ -23,7 +22,6 @@ const INITIAL_GRAF = Object.freeze({
     type: 'bar',
     name: 'Добыто (час)',
     width: WIDTH_BAR,
-    // texttemplate: 'Day: %{x|%A. %b %d. %H-%M}',
     hovertemplate:
               '%{x|%A. %b %d. %H-%M} <br>' +
               'Добыто (сутки): <b>%{y}</b> тыс.м',
@@ -37,7 +35,6 @@ const INITIAL_GRAF = Object.freeze({
     type: 'scatter',
     name: 'Добыто (сутки)',
     mode: 'lines+markers+text',
-    // texttemplate: '%{text}',
     textposition: 'top center',
     hovertemplate:
     '%{x|%A. %b %d. %H-%M} <br>' +
@@ -55,7 +52,6 @@ const INITIAL_GRAF = Object.freeze({
     name: 'Прогноз добычи',
     mode: 'lines+markers+text',
     textposition: 'center left',
-    // textfont:{'family': 'Times', 'size': '22'},
     line: {
       width: 3,
       dash: 'dot',
@@ -68,14 +64,12 @@ const INITIAL_GRAF = Object.freeze({
 });
 
 const changePlan = (state, planMax, planDate) => {
-  console.log(state);
   const newState = JSON.parse(JSON.stringify(state));
 
   const nexDayDate = getNextDate(planDate);
 
   const y = [planMax, planMax];
   const x = [planDate, nexDayDate];
-  console.log(y)
 
   newState.tracePlan.x = x;
   newState.tracePlan.y = y;
@@ -132,7 +126,6 @@ const changeObtained = (state) => {
 
   newState.options.productionNow = acc;
 
-  console.log(newState);
 
   return newState;
 };
