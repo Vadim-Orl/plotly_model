@@ -2,6 +2,11 @@
   justify-content: space-around;
   align-items: center;
 }
+.form label {
+  @media (min-width: $mobile-size) and (max-width: $mobile-width-only){
+    margin-bottom: 10px;
+  }
+}
 
 .form fieldset {
   display: flex;
@@ -34,12 +39,6 @@
   width: 80px;
   text-align: center;
 
-  @media (min-width: $mobile-size) and (max-width: $desktop-width){
-    margin-bottom: 10px;
-  }
-  @media (min-width: $mobile-size) and (max-width: $desktop-width) {
-    margin-bottom: 0;
-  }
 
   &:hover {
     border: 2px solid #626c78;
