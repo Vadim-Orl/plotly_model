@@ -19,9 +19,11 @@ var utils_default = {
   }
 };
 
-// source/scripts/view/abstract-view.js
+// source/scripts/view/abstract-view.ts
 var render = (template, tag, classes) => {
   const newNode = document.createElement(tag);
+  console.log(classes);
+  debugger;
   classes.forEach((el) => {
     newNode.classList.add(el);
   });
@@ -29,7 +31,10 @@ var render = (template, tag, classes) => {
   return newNode;
 };
 var AbstractView = class _AbstractView {
-  constructor(tag = "div", { classes } = { classes: [] }) {
+  bind(_element) {
+    throw new Error("Method not implemented.");
+  }
+  constructor(tag = "div", classes) {
     if (new.target === _AbstractView) {
       throw new Error("Can't instantiate AbstractView, only concrete one");
     }
@@ -38,27 +43,27 @@ var AbstractView = class _AbstractView {
   }
   get template() {
     throw new Error("Template is required");
+    return "";
   }
   get element() {
     if (this._element) {
       return this._element;
     }
     this._element = this.render();
-    this.bind(this._element);
+    if (this.bind !== void 0)
+      this.bind(this._element);
     return this._element;
   }
   render() {
     return render(this.template, this.tag, this.classes);
   }
-  bind() {
-  }
 };
 var abstract_view_default = AbstractView;
 
-// source/scripts/view/graf-view.js
+// source/scripts/view/graf-view.ts
 var GrafView = class extends abstract_view_default {
   constructor(state) {
-    super("div", { classes: ["graf"] });
+    super("div", ["graf"]);
     this.state = state;
   }
   get template() {
@@ -104,10 +109,10 @@ var GrafView = class extends abstract_view_default {
   }
 };
 
-// source/scripts/view/plan-tabs-veiw.js
+// source/scripts/view/plan-tabs-veiw.ts
 var PlanTabsView = class extends abstract_view_default {
   constructor(model) {
-    super("div", { classes: ["plan-tabs"] });
+    super("div", ["plan-tabs"]);
     this.model = model;
     this.planValue = model.planValue;
   }
@@ -141,50 +146,58 @@ var PlanTabsView = class extends abstract_view_default {
     `;
   }
   onAnswer(planValue) {
-    this.changePlan(planValue);
+    if (this.changePlan !== void 0) {
+      this.changePlan(planValue);
+    }
   }
   bind() {
-    const planValue = this._element.querySelector(".plan-value");
-    const formPlan = this._element.querySelector(".form__plan");
-    const modalForm = this._element.querySelector(".modal-form");
-    const btnResetPlan = this._element.querySelector(".button__plan--reset");
-    const btnChangePlan = this._element.querySelector(".button__plan--change");
-    const btnClose = this._element.querySelector(".form-toggle");
-    const shadowDiv = this._element.querySelector(".milk-shadow");
-    formPlan.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-      this.onAnswer(planValue.value);
-      modalForm.classList.add("hidden");
-      modalForm.classList.remove("form__plan--opened");
-      btnResetPlan.classList.remove("hidden");
-      btnChangePlan.classList.remove("hidden");
-      shadowDiv.classList.toggle("shadow__false");
-      shadowDiv.classList.toggle("shadow__true");
-    });
-    btnChangePlan.addEventListener("click", (evt) => {
-      btnClose.disabled = false;
-      evt.preventDefault();
-      modalForm.classList.remove("hidden");
-      modalForm.classList.add("form__plan--opened");
-      shadowDiv.classList.toggle("shadow__false");
-      shadowDiv.classList.toggle("shadow__true");
-    });
-    btnResetPlan.addEventListener("click", (evt) => {
-      evt.preventDefault();
-      Router.start(planValue, this.model);
-    });
-    btnClose.addEventListener("click", (evt) => {
-      evt.preventDefault();
-      modalForm.classList.add("hidden");
-      modalForm.classList.remove("form__plan--opened");
-    });
+    if (this._element !== void 0) {
+      const planValue = this._element.querySelector(".plan-value");
+      const formPlan = this._element.querySelector(".form__plan");
+      const modalForm = this._element.querySelector(".modal-form");
+      const btnClose = this._element.querySelector(".form-toggle");
+      const btnResetPlan = this._element.querySelector(".button__plan--reset");
+      const btnChangePlan = this._element.querySelector(".button__plan--change");
+      const shadowDiv = this._element.querySelector(".milk-shadow");
+      formPlan?.addEventListener("submit", (evt) => {
+        evt.preventDefault();
+        if (planValue !== null) {
+          this.onAnswer(Number(planValue.value));
+        }
+        modalForm?.classList.add("hidden");
+        modalForm?.classList.remove("form__plan--opened");
+        btnResetPlan?.classList.remove("hidden");
+        btnChangePlan?.classList.remove("hidden");
+        shadowDiv?.classList.toggle("shadow__false");
+        shadowDiv?.classList.toggle("shadow__true");
+      });
+      btnChangePlan?.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        if (btnClose !== null) {
+          btnClose.disabled = false;
+        }
+        modalForm?.classList.remove("hidden");
+        modalForm?.classList.add("form__plan--opened");
+        shadowDiv?.classList.toggle("shadow__false");
+        shadowDiv?.classList.toggle("shadow__true");
+      });
+      btnResetPlan?.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        Router.start(Number(planValue));
+      });
+      btnClose?.addEventListener("click", (evt) => {
+        evt.preventDefault();
+        modalForm?.classList.add("hidden");
+        modalForm?.classList.remove("form__plan--opened");
+      });
+    }
   }
 };
 
-// source/scripts/view/tabs-view.js
+// source/scripts/view/tabs-view.ts
 var TabsView = class extends abstract_view_default {
   constructor() {
-    super("div", { classes: ["graf-tabs"] });
+    super("div", ["graf-tabs"]);
   }
   get template() {
     return `
@@ -203,16 +216,24 @@ var TabsView = class extends abstract_view_default {
    `;
   }
   bind() {
-    const pointValue = this._element.querySelector(".point__value");
-    const pointTime = this._element.querySelector(".point__time");
-    this._element.querySelector(".form__tabs-add-bar").addEventListener("submit", (evt) => {
-      evt.preventDefault();
-      this.onAnswer(pointValue.value, pointTime.value);
-    });
+    if (this._element !== void 0) {
+      const pointValue = this._element.querySelector(".point__value");
+      const pointTime = this._element.querySelector(".point__time");
+      const formAddBar = this._element.querySelector(".form__tabs-add-bar");
+      formAddBar?.addEventListener("submit", (evt) => {
+        evt.preventDefault();
+        if (pointValue && pointTime) {
+          this.onAnswer(Number(pointValue.value), pointTime.value);
+        }
+      });
+    }
+  }
+  onAnswer(value, value1) {
+    throw new Error("Method not implemented.");
   }
 };
 
-// source/scripts/model/graf-screen.js
+// source/scripts/model/graf-screen.ts
 var GrafScreen = class {
   constructor(model) {
     this.model = model;
@@ -263,7 +284,7 @@ var GrafScreen = class {
   }
 };
 
-// source/scripts/const.js
+// source/scripts/const.ts
 var NUMBER_OF_MINUTES = 1440;
 var WIDTH_BAR = 5e6;
 var GRAF_STYLE = {
@@ -277,7 +298,7 @@ var GRAF_STYLE = {
   }
 };
 
-// source/scripts/utils/bisnes-function.js
+// source/scripts/utils/bisnes-function.ts
 var INITIAL_GRAF = Object.freeze({
   options: {
     productionNow: 0
@@ -356,13 +377,13 @@ var changeObtained = (state) => {
     return newState;
   }
   tracePoint.x.forEach((el, index) => {
-    mapBar.push({ name: el, value: tracePoint.y[index] });
+    mapBar.push({ time: el, value: tracePoint.y[index] });
   });
   mapBar.sort((a, b) => {
-    if (a.name > b.name) {
+    if (a.time > b.time) {
       return 1;
     }
-    if (a.name < b.name) {
+    if (a.time < b.time) {
       return -1;
     }
     return 0;
@@ -370,7 +391,7 @@ var changeObtained = (state) => {
   let acc = 0;
   mapBar.forEach((el, index) => {
     acc += el.value;
-    traceObtained.x[index] = el.name;
+    traceObtained.x[index] = el.time;
     traceObtained.y[index] = acc;
   });
   traceObtained.text.length = mapBar.length - 1;
@@ -400,20 +421,19 @@ var changeForecast = (state, date, planValue) => {
 function getNextDate(date) {
   let nexDayDate = new Date(date);
   nexDayDate.setDate(nexDayDate.getDate() + 1);
-  nexDayDate = nexDayDate.toISOString().split("T")[0];
-  return nexDayDate;
+  return nexDayDate.toISOString().split("T")[0];
 }
 
-// source/scripts/model/graf-model.js
+// source/scripts/model/graf-model.ts
 var GrafModel = class {
   constructor(planValue = 0, planDate = (/* @__PURE__ */ new Date()).toISOString().split("T")[0]) {
     this.planValue = planValue;
     this.planDate = planDate;
+    this._state = null;
     this.restart();
     this.changePlan();
   }
   restart() {
-    console.log("init");
     this._state = INITIAL_GRAF;
   }
   get state() {
@@ -428,16 +448,20 @@ var GrafModel = class {
     ];
   }
   getTracePlan() {
-    return this._state.tracePlan;
+    if (this._state !== null)
+      return this._state.tracePlan;
   }
   getTracePoint() {
-    return this._state.tracePoint;
+    if (this._state !== null)
+      return this._state.tracePoint;
   }
   getTraceObtained() {
-    return this._state.traceObtained;
+    if (this._state !== null)
+      return this._state.traceObtained;
   }
   getTraceForecast() {
-    return this._state.traceForecast;
+    if (this._state !== null)
+      return this._state.traceForecast;
   }
   changePlan(value = 0) {
     this.planValue = value;
@@ -454,7 +478,7 @@ var GrafModel = class {
   }
 };
 
-// source/scripts/controller/router.js
+// source/scripts/controller/router.ts
 var Router = class {
   static reset() {
     const grafModel = new GrafModel();
@@ -468,6 +492,6 @@ var Router = class {
   }
 };
 
-// source/scripts/index.js
+// source/scripts/index.ts
 Router.start();
 //# sourceMappingURL=index.js.map

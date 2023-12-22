@@ -1,6 +1,8 @@
 import {NUMBER_OF_MINUTES, WIDTH_BAR, GRAF_STYLE} from '../const';
+import { T_INITIAL_GRAF } from '../../type/type';
 
-const INITIAL_GRAF = Object.freeze({
+
+const INITIAL_GRAF: T_INITIAL_GRAF = Object.freeze({
   options: {
     productionNow: 0,
   },
@@ -63,7 +65,7 @@ const INITIAL_GRAF = Object.freeze({
   },
 });
 
-const changePlan = (state, planMax, planDate) => {
+const changePlan = (state, planMax: number, planDate: string) => {
   const newState = JSON.parse(JSON.stringify(state));
 
   const nexDayDate = getNextDate(planDate);
@@ -89,24 +91,31 @@ const changePoint = (state, time, value, date) => {
   return newState;
 };
 
-const changeObtained = (state) => {
+
+
+type TMapBar = {
+  time?: any;
+  value?: any;
+}[]
+
+const changeObtained = (state: any) => {
   const newState = JSON.parse(JSON.stringify(state));
-  const mapBar = [];
+  const mapBar: TMapBar = [];
   const { tracePoint, traceObtained} = newState;
 
   if(tracePoint.x.length === 0) {
     return newState;
   }
 
-  tracePoint.x.forEach((el, index) => {
-    mapBar.push({name: el, value: tracePoint.y[index]});
+  tracePoint.x.forEach((el: string, index: number) => {
+    mapBar.push({time: el, value: tracePoint.y[index]});
   });
 
   mapBar.sort((a, b) => {
-    if (a.name > b.name) {
+    if (a.time > b.time) {
       return 1;
     }
-    if (a.name < b.name) {
+    if (a.time < b.time) {
       return -1;
     }
     return 0;
@@ -116,7 +125,7 @@ const changeObtained = (state) => {
 
   mapBar.forEach((el, index) => {
     acc += el.value;
-    traceObtained.x[index] = el.name;
+    traceObtained.x[index] = el.time;
     traceObtained.y[index] = acc;
   });
 
@@ -130,7 +139,7 @@ const changeObtained = (state) => {
   return newState;
 };
 
-const changeForecast = (state, date, planValue) => {
+const changeForecast = (state, date: string, planValue: number) => {
   const newState = JSON.parse(JSON.stringify(state));
 
   const {traceObtained, traceForecast} = newState;
@@ -156,11 +165,11 @@ const changeForecast = (state, date, planValue) => {
   return newState;
 };
 
-function getNextDate(date){
+function getNextDate(date: string){
   let nexDayDate = new Date(date);
   nexDayDate.setDate(nexDayDate.getDate() + 1);
-  nexDayDate = nexDayDate.toISOString().split('T')[0];
-  return nexDayDate;
+
+  return nexDayDate.toISOString().split('T')[0];
 }
 
 export {INITIAL_GRAF, changePlan, changePoint, changeObtained, changeForecast};

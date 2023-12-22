@@ -2,7 +2,7 @@ import AbstractView from './abstract-view.js';
 
 export default class TabsView extends AbstractView {
   constructor() {
-    super('div', { classes: ['graf-tabs'] });
+    super('div', ['graf-tabs']);
   }
 
   get template() {
@@ -23,14 +23,22 @@ export default class TabsView extends AbstractView {
   }
 
   bind() {
-    const pointValue = this._element.querySelector('.point__value');
-    const pointTime = this._element.querySelector('.point__time');
+    if(this._element !== undefined){
+     const pointValue: HTMLInputElement | null = this._element.querySelector('.point__value');
+     const pointTime: HTMLInputElement | null = this._element.querySelector('.point__time');
+     const formAddBar: HTMLFormElement | null =  this._element.querySelector('.form__tabs-add-bar');
 
-    this._element.querySelector('.form__tabs-add-bar').addEventListener('submit', (evt) => {
+    formAddBar?.addEventListener('submit', (evt) => {
       evt.preventDefault();
-
-      this.onAnswer(pointValue.value, pointTime.value);
+      if (pointValue && pointTime) {
+        this.onAnswer(Number(pointValue.value), pointTime.value);
+      }
     });
 
+    }
+  }
+
+  onAnswer(value: any, value1: any) {
+    throw new Error('Method not implemented.');
   }
 }

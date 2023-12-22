@@ -1,7 +1,6 @@
 import utils from '../utils/utils.js';
 import GrafScreen from '../model/graf-screen.js';
 import PlanTabsView from '../view/plan-tabs-veiw.js';
-import TabsView from '../view/tabs-view.js';
 import GrafModel from '../model/graf-model.js';
 
 export default class Router {
@@ -11,7 +10,7 @@ export default class Router {
     utils.showScreen(utils.newCentralContainer(planTabsScreen));
   }
 
-  static start(planValue) {
+  static start(planValue: number) {
     const grafModel = new GrafModel(planValue);
     const grafScreen = new GrafScreen(grafModel);
     utils.showScreen(utils.newCentralContainer(grafScreen));

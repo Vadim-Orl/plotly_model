@@ -1,9 +1,18 @@
+import { TGrafModel } from '../../type/t-model.js';
+
 import GrafView from '../view/graf-view.js';
 import PlanTabsView from '../view/plan-tabs-veiw.js';
 import TabsView from '../view/tabs-view.js';
+import GrafModel from './graf-model.js';
 
 export default class GrafScreen {
-  constructor(model) {
+  model: TGrafModel;
+  root: HTMLDivElement;
+  graf: any;
+  grafTabs: any;
+  grafPlan: any;
+
+  constructor(model: TGrafModel) {
     this.model = model;
     this.root = document.createElement('div');
     this.startGraf = this.startGraf.bind(this);
@@ -47,7 +56,7 @@ export default class GrafScreen {
     this.graf = graf;
   }
 
-  changePlan(value) {
+  changePlan(value: number) {
     this.model.changePlan(value);
 
     this.updateModel();
@@ -55,7 +64,7 @@ export default class GrafScreen {
   }
 
 
-  onAnswer(pointValue, pointTime) {
+  onAnswer(pointValue: number, pointTime: string) {
     this.model.addPoint(Number(pointValue), pointTime);
     this.updateModel();
     this.restartGraf();

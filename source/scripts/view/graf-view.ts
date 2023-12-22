@@ -1,17 +1,21 @@
 
-import AbstractView from '../view/abstract-view.js';
+import AbstractView from './abstract-view.js';
+import { TGrafModel } from '../../type/t-model.js';
 
 export default class GrafView extends AbstractView {
-  constructor(state) {
-    super('div', { classes: ['graf'] });
+  state: TGrafModel;
+
+  constructor(state: TGrafModel) {
+    super('div', ['graf'] );
     this.state = state;
-  }
+    // this.bind= this.bind;
+  };
 
   get template() {
     return '<div id=\'graf\'> </div>';
-  }
+  };
 
-  bind() {
+  bind():void {
 
     const graf = this.element.querySelector('#graf');
     const data = this.state.getDataTrace();
@@ -50,5 +54,5 @@ export default class GrafView extends AbstractView {
     const config = {responsive: true};
 
     Plotly.newPlot(graf, data, layout, config);
-  }
-}
+  };
+};

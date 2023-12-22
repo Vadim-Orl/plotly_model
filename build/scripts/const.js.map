@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "sources": ["source/scripts/const.js"],
+  "sources": ["source/scripts/const.ts"],
   "sourcesContent": ["const NUMBER_OF_MINUTES = 1440;\nconst WIDTH_BAR = 5000000;\n\nconst GRAF_STYLE = {\n  color: {\n    tracePlan: '#17BECF',\n    tracePlanFill: 'rgba(0,255,255,0.1)',\n    tracePoint: '#32CD32',\n    traceObtained: '#8B008B',\n    traceForecastDone: '#32CD32',\n    traceForecast: '#B22222',\n  }\n};\n\n\nexport {NUMBER_OF_MINUTES, WIDTH_BAR, GRAF_STYLE};\n"],
   "mappings": ";AAAA,IAAM,oBAAoB;AAC1B,IAAM,YAAY;AAElB,IAAM,aAAa;AAAA,EACjB,OAAO;AAAA,IACL,WAAW;AAAA,IACX,eAAe;AAAA,IACf,YAAY;AAAA,IACZ,eAAe;AAAA,IACf,mBAAmB;AAAA,IACnB,eAAe;AAAA,EACjB;AACF;",
   "names": []

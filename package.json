@@ -1,5 +1,5 @@
 {
-  "name": "htmlacademy-gulp-template",
+  "name": "Graf",
   "version": "2.0.6",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
     "not < 0.2%"
   ],
   "scripts": {
-    "start": "gulp runDev",
+    "start": "gulp runDev && ./node_modules/.bin/tsc --project ./tsconfig.json --watch",
     "build": "gulp buildProd",
     "preview": "npm run build && browser-sync start -s build/ --cors --no-notify --no-ui",
     "prelint": "gulp processMarkup --silent",
@@ -62,6 +62,7 @@
     "plotly.js": "^2.27.1",
     "plotly.js-dist": "^2.27.1",
     "plotly.js-dist-min": "^2.27.1",
-    "plotly.js-locales": "^2.27.1"
+    "plotly.js-locales": "^2.27.1",
+    "typescript": "^5.3.3"
   }
 }

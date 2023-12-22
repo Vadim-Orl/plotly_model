@@ -1,4 +1,4 @@
-// source/scripts/const.js
+// source/scripts/const.ts
 var NUMBER_OF_MINUTES = 1440;
 var WIDTH_BAR = 5e6;
 var GRAF_STYLE = {

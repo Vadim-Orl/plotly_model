@@ -1,15 +1,20 @@
 import {INITIAL_GRAF, changePlan, changePoint, changeObtained, changeForecast} from '../utils/bisnes-function.js';
+import { T_INITIAL_GRAF } from '../../type/type.js';
 
 export default class GrafModel {
+  planValue: number;
+  planDate: string;
+  _state: T_INITIAL_GRAF | null;
+
   constructor(planValue = 0, planDate = new Date().toISOString().split('T')[0]) {
-    this.planValue = planValue;
+    this.planValue = planValue ;
     this.planDate = planDate;
+    this._state = null;
     this.restart();
     this.changePlan();
   }
 
   restart() {
-    console.log('init');
     this._state = INITIAL_GRAF;
   }
 
@@ -28,35 +33,35 @@ export default class GrafModel {
   }
 
   getTracePlan() {
-    return this._state.tracePlan;
+     if (this._state !== null)  return this._state.tracePlan;
   }
 
   getTracePoint() {
-    return this._state.tracePoint;
+    if (this._state !== null) return this._state.tracePoint;
   }
 
   getTraceObtained() {
-    return this._state.traceObtained;
+    if (this._state !== null)  return this._state.traceObtained;
   }
 
   getTraceForecast() {
-    return this._state.traceForecast;
+    if (this._state !== null) return this._state.traceForecast;
   }
 
-  changePlan(value = 0) {
+  changePlan(value = 0):void {
     this.planValue = value;
     this._state = changePlan(this._state, this.planValue, this.planDate);
   }
 
-  addPoint(value, time) {
+  addPoint(value : number, time : string):void {
     this._state = changePoint(this._state, time, value, this.planDate);
   }
 
-  changeObtained() {
+  changeObtained():void {
     this._state = changeObtained(this._state);
   }
 
-  changeForecast() {
+  changeForecast():void {
     this._state = changeForecast(this._state, this.planDate, this.planValue);
   }
 }
