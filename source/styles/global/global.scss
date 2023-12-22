@@ -14,6 +14,14 @@ body {
   &:hover {
     background-color:#a4bac7;
   }
+
+  @media (min-width: $mobile-size) and (max-width: $desktop-width) {
+    width: 40%;
+  }
+
+  @media (min-width: $tablet-width) and (max-width: $tablet-size-only) {
+    width: 200px;
+  }
 }
 
 .shadow__true {

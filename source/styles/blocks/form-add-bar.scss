@@ -9,6 +9,17 @@
 
   padding: 10px;
   margin-top: 20px;
+
+  @media (min-width: $mobile-size) and (max-width: $mobile-width-only) {
+    flex-direction: column;
+    justify-content: space-around;
+    width: 80%;
+  }
+
+  @media (min-width: $tablet-width) and (max-width: $tablet-size-only) {
+    width: 80%;
+  }
+
 }
 
 

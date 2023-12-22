@@ -35,6 +35,13 @@
   width: 80px;
   text-align: center;
 
+  @media (min-width: $mobile-size) and (max-width: $desktop-width){
+    margin-bottom: 10px;
+  }
+  @media (min-width: $mobile-size) and (max-width: $desktop-width) {
+    margin-bottom: 0;
+  }
+
   &:hover {
     border: 2px solid #626c78;
   }

@@ -64,4 +64,8 @@
   justify-content:space-around;
   align-items: center;
   margin: 20px auto 0 auto;
+
+  @media (min-width: $mobile-size) and (max-width: $desktop-width) {
+    width: 80%;
+  }
 }
