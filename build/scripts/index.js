@@ -22,8 +22,6 @@ var utils_default = {
 // source/scripts/view/abstract-view.ts
 var render = (template, tag, classes) => {
   const newNode = document.createElement(tag);
-  console.log(classes);
-  debugger;
   classes.forEach((el) => {
     newNode.classList.add(el);
   });

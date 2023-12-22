@@ -6,6 +6,16 @@
   width: 300px;
   height: 100%;
   z-index: 100;
+
+  @media (min-width: $mobile-size) and (max-width: $mobile-width-only) {
+    width: 80%;
+    left: 10%;
+  }
+
+  @media (min-width: $tablet-width) and (max-width: $tablet-size-only) {
+    width: 60%;
+    left: 22%;
+  }
 }
 
 .button__plan {

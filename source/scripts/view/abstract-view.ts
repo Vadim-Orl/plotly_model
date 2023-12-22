@@ -1,7 +1,6 @@
 const render = (template: string, tag: string, classes: string[]) => {
   const newNode = document.createElement(tag);
-  console.log(classes)
-  debugger;
+  
   classes.forEach((el) => {
     newNode.classList.add(el);
   });
