@@ -187,6 +187,8 @@ var PlanTabsView = class extends abstract_view_default {
         evt.preventDefault();
         modalForm?.classList.add("hidden");
         modalForm?.classList.remove("form__plan--opened");
+        shadowDiv?.classList.toggle("shadow__false");
+        shadowDiv?.classList.toggle("shadow__true");
       });
     }
   }
